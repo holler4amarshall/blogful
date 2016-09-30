@@ -45,3 +45,12 @@ def add_entry_post():
     session.add(entry)
     session.commit()
     return redirect(url_for("entries"))
+ 
+# Assignment: View Single Entry
+@app.route("/entry/<int:id>")
+def view_entry(id):
+    entry = session.query(Entry)
+    entry = entry.filter(Entry.id == id + 1).first()
+    return render_template("entry.html",
+        entry=entry)
+    ### need to bullet proof this. if i enter /entry/1000000 then i dont get a nice error.

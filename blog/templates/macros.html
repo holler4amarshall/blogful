@@ -9,9 +9,11 @@
     </div>
     <div class="col-md-10">
         <h1>
-            {{ entry.title }}
+            <a href="/entry/{{entry.id - 1}}">{{ entry.title }}</a>
         </h1>
         {{ entry.content | markdown }}
     </div>
 </div>
 {% endmacro %}
+
+{@ macro select_entry(entry) %}
