@@ -60,6 +60,6 @@ def view_entry(id):
 def edit_entry_get(id):
     entry = session.query(Entry)
     entry = entry.filter(Entry.id == id + 1).first()
-    return render_template("entry.html", entry=entry)
+    return render_template("edit_entry.html", entry=entry)
     
 # @app.route("/entry/<int:id>/edit", methods=["PUT"])
