@@ -54,3 +54,12 @@ def view_entry(id):
     return render_template("entry.html",
         entry=entry)
     ### need to bullet proof this. if i enter /entry/1000000 then i dont get a nice error.
+    
+# Assignment: edit entry via link in metadata div to display a form similar to the add entry view, prepopulated with existing data
+@app.route("/entry/<int:id>/edit", methods=["GET"])
+def edit_entry_get(id):
+    entry = session.query(Entry)
+    entry = entry.filter(Entry.id == id + 1).first()
+    return render_template("entry.html", entry=entry)
+    
+# @app.route("/entry/<int:id>/edit", methods=["PUT"])

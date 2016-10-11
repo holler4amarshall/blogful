@@ -1,4 +1,4 @@
-{% macro render_entry(entry) %}
+{% macro render_entry_as_href(entry) %}
 <div class="row">
     <div class="col-md-2 text-right metadata">
         <ul class="list-unstyled">
@@ -12,8 +12,28 @@
             <a href="/entry/{{entry.id - 1}}">{{ entry.title }}</a>
         </h1>
         {{ entry.content | markdown }}
+        <a href="/entry/{{entry.id -1}}/edit">edit entry</a>
     </div>
 </div>
 {% endmacro %}
 
-{@ macro select_entry(entry) %}
+## how to do an if statement, to determine if to show link as href or not? 
+
+{% macro render_entry(entry) %}
+<div class="row">
+    <div class="col-md-2 text-right metadata">
+        <ul class="list-unstyled">
+            <li>
+                {{ entry.datetime | dateformat("%d/%m/%y") }}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-10">
+        <h1>
+            {{ entry.title }}
+        </h1>
+        {{ entry.content | markdown }}
+        <a href="/entry/{{entry.id -1}}/edit">edit entry</a>
+    </div>
+</div>
+{% endmacro %}
