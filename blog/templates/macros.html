@@ -13,6 +13,8 @@
         </h1>
         {{ entry.content | markdown }}
         <a href="/entry/{{entry.id -1}}/edit">edit entry</a>
+        |
+        <a href="/entry/{{entry.id - 1}}/delete">delete entry</a>
     </div>
 </div>
 {% endmacro %}
@@ -34,6 +36,8 @@
         </h1>
         {{ entry.content | markdown }}
         <a href="/entry/{{entry.id -1}}/edit">edit entry</a>
+        |
+        <a href="/entry/{{entry.id - 1}}/delete">delete entry</a>
     </div>
 </div>
 {% endmacro %}

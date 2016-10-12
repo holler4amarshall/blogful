@@ -73,3 +73,20 @@ def edit_entry_post(id):
     )
     session.commit()
     return redirect(url_for("entries"))
+    
+@app.route("/entry/<int:id>/delete", methods=["GET"])
+def delete_entry_get(id):
+    entry = session.query(Entry)
+    entry = entry.filter(Entry.id == id + 1).first()
+    return render_template("delete_entry.html", entry=entry)
+
+@app.route("/entry/<int:id>/delete", methods=["POST"])
+def delete_entry(id):
+    id = id + 1
+    entry = session.query(Entry)
+    entry = entry.filter(Entry.id == id).first()
+    session.delete(entry)
+    session.commit()
+    return redirect(url_for("entries"))
+def cancel_delete():
+    return redirect(url_for("entries"))
