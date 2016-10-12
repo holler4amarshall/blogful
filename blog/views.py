@@ -1,7 +1,7 @@
-from flask import render_template, request, redirect, url_for
-
+from flask import render_template
 from . import app
 from .database import session, Entry
+from flask import request, redirect, url_for
 
 PAGINATE_BY = 10
 
@@ -44,9 +44,9 @@ def add_entry_post():
     )
     session.add(entry)
     session.commit()
-    return redirect(url_for("entries"))
+    return redirect(url_for('entries'))
+
  
-# Assignment: View Single Entry
 @app.route("/entry/<int:id>")
 def view_entry(id):
     entry = session.query(Entry)
@@ -55,11 +55,21 @@ def view_entry(id):
         entry=entry)
     ### need to bullet proof this. if i enter /entry/1000000 then i dont get a nice error.
     
-# Assignment: edit entry via link in metadata div to display a form similar to the add entry view, prepopulated with existing data
+
 @app.route("/entry/<int:id>/edit", methods=["GET"])
 def edit_entry_get(id):
     entry = session.query(Entry)
     entry = entry.filter(Entry.id == id + 1).first()
     return render_template("edit_entry.html", entry=entry)
     
-# @app.route("/entry/<int:id>/edit", methods=["PUT"])
+@app.route("/entry/<int:id>/edit", methods=["POST"])
+def edit_entry_post(id):
+    id = id + 1
+    entry = session.query(Entry)
+    entry = entry.filter(Entry.id == id).first()
+    entry = Entry(
+        title=request.form["title"],
+        content=request.form["content"],
+    )
+    session.commit()
+    return redirect(url_for("entries"))
