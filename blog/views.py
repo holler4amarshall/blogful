@@ -6,19 +6,15 @@ from flask import request, redirect, url_for
 PAGINATE_BY = 10
 
 @app.route("/")
-    
-
-#@app.route("/page/<int:page>", methods=["GET"])
-#def entries_per_page(): 
-    #entries_per_page = request.form['entries_per_page']
+@app.route("/", methods=["POST"])
+def entries_per_page(): 
+    PAGINATE_BY = request.args.get('entries_per_page')
 #    entries_per_page = (request.form.get['entries_per_page'])
-#    print (str(entries_per_page))
-#    return str(entries_per_page)
-
+    #print (str(PAGINATE_BY))
+    return str(PAGINATE_BY)
 
 @app.route("/page/<int:page>")
-
-def entries(page=1, paginate_by = PAGINATE_BY):
+def entries(page=1):
     
     #PAGINATE_BY = entries_per_page
     
