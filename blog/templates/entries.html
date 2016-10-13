@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div>
+<form name="entries_per_page" action={{ url_for('entries') }} method='POST'>
     Display
     <select>
       <option value="10">10</option>
@@ -12,7 +12,7 @@
       <option value="50">50</option>>
     </select>
     entries
-</div>
+</form>
 
 {% for entry in entries %}
 {{ macros.render_entry_as_href(entry) }}
