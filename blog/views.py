@@ -6,8 +6,22 @@ from flask import request, redirect, url_for
 PAGINATE_BY = 10
 
 @app.route("/")
+    
+
+#@app.route("/page/<int:page>", methods=["GET"])
+#def entries_per_page(): 
+    #entries_per_page = request.form['entries_per_page']
+#    entries_per_page = (request.form.get['entries_per_page'])
+#    print (str(entries_per_page))
+#    return str(entries_per_page)
+
+
 @app.route("/page/<int:page>")
-def entries(page=1):
+
+def entries(page=1, paginate_by = PAGINATE_BY):
+    
+    #PAGINATE_BY = entries_per_page
+    
     # Zero-indexed page
     page_index = page - 1
 
@@ -29,7 +43,7 @@ def entries(page=1):
         has_next=has_next,
         has_prev=has_prev,
         page=page,
-        total_pages=total_pages
+        total_pages=total_pages,
     )
     
 @app.route("/entry/add", methods=["GET"])

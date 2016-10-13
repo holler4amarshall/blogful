@@ -2,7 +2,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form name="entries_per_page" action={{ url_for('entries') }} method='POST'>
+<form name="entries_per_page" action={{ url_for('entries') }} method='GET'>
+<!--form name=entries_per_page" action= "/page/<int:page>" method='GET'-->
     Display
     <select>
       <option value="10">10</option>
