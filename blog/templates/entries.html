@@ -2,6 +2,18 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div>
+    Display
+    <select>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>>
+    </select>
+    entries
+</div>
+
 {% for entry in entries %}
 {{ macros.render_entry_as_href(entry) }}
 {% endfor %}
