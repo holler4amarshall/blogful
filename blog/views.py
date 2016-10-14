@@ -34,7 +34,7 @@ def entries(page=1):
         has_prev=has_prev,
         page=page,
         total_pages=total_pages,
-        limit=limit,
+        limit=limit, paginate_by=paginate_by,
     )
     
 @app.route("/entry/add", methods=["GET"])

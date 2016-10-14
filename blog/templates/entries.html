@@ -6,11 +6,13 @@
 <!--form name=entries_per_page" action= "/page/<int:page>" method='GET'-->
     Display
     <select name="entries_per_page" onchange="this.form.submit()">
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="30">30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
+    {% for count in [10, 20, 30, 40, 50, 100] %}
+      {% if count == paginate_by %}
+      <option value={{count}} selected > {{count}} </option>
+      {% else %}
+      <option value="{{ count }}">{{ count }}</option>
+      {% endif%}
+    {% endfor %}
     </select>
     entries
 </form>
