@@ -57,7 +57,7 @@ def add_entry_post():
     )
     session.add(entry)
     session.commit()
-    return redirect(url_for("entries")))
+    return redirect(url_for("entries"))
 
  
 @app.route("/entry/<int:id>")
