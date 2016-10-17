@@ -2,7 +2,7 @@ from flask import render_template
 from . import app
 from .database import session, Entry, User
 from flask import request, redirect, url_for, flash
-from flask.ext.login import login_user
+from flask.ext.login import login_user, login_required
 from werkzeug.security import check_password_hash
 
 PAGINATE_BY = 10
@@ -44,10 +44,12 @@ def entries(page=1):
     )
     
 @app.route("/entry/add", methods=["GET"])
+@login_required
 def add_entry_get():
     return render_template("add_entry.html")
 
 @app.route("/entry/add", methods=["POST"])
+@login_required
 def add_entry_post():
     entry = Entry(
         title=request.form["title"],
@@ -55,7 +57,7 @@ def add_entry_post():
     )
     session.add(entry)
     session.commit()
-    return redirect(url_for('entries'))
+    return redirect(url_for("entries")))
 
  
 @app.route("/entry/<int:id>")
