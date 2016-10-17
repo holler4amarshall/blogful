@@ -7,13 +7,17 @@ PAGINATE_BY = 10
 
 @app.route("/")
 @app.route("/page/<int:page>")
+
 def entries(page=1):
-    limit = 100
     
+    try: 
+        paginate_by = int(request.args.get('entries_per_page'))
+    except (TypeError, ValueError):  
+        paginate_by = PAGINATE_BY
+    
+    limit = 100
     # Zero-indexed page
     page_index = page - 1
-    
-    paginate_by = int(request.args.get('entries_per_page', PAGINATE_BY))
 
     count = session.query(Entry).count()
 
