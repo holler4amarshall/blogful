@@ -8,3 +8,4 @@ app.config.from_object(config_path)
 
 from . import views #import blog.views
 from . import filters #import blog.filters
+from . import login
