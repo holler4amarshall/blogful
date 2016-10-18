@@ -3,7 +3,6 @@
 {% block content %}
 
 <form action={{ url_for('entries') }} method='GET'>
-<!--form name=entries_per_page" action= "/page/<int:page>" method='GET'-->
     Display
     <select name="entries_per_page" onchange="this.form.submit()">
     {% for count in [10, 20, 30, 40, 50, 100] %}
