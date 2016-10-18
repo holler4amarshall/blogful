@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, ForeignKey
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 from . import app
@@ -10,17 +10,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 import datetime
-
 from sqlalchemy import Column, Integer, String, Text, DateTime
-
-class Entry(Base):
-    __tablename__ = "entries"
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(1024))
-    content = Column(Text)
-    datetime = Column(DateTime, default=datetime.datetime.now)
-
 from flask.ext.login import UserMixin
 
 class User(Base, UserMixin):
@@ -30,5 +20,15 @@ class User(Base, UserMixin):
     name = Column(String(128))
     email = Column(String(128), unique=True)
     password = Column(String(128))
+    entries = relationship("Entry", backref="author")
+
+class Entry(Base):
+    __tablename__ = "entries"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String(1024))
+    content = Column(Text)
+    datetime = Column(DateTime, default=datetime.datetime.now)
+    author_id = Column(Integer, ForeignKey('users.id'))
 
 Base.metadata.create_all(engine)
