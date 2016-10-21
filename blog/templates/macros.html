@@ -13,9 +13,11 @@
         </h1>
         {{ entry.content | markdown }}
         <p>created by: {{ entry.author.name }}</p>
+        {% if current_user.is_authenticated %}
         <a href="/entry/{{entry.id -1}}/edit">edit entry</a>
         |
         <a href="/entry/{{entry.id - 1}}/delete">delete entry</a>
+        {% endif %}
     </div>
 </div>
 {% endmacro %}
@@ -35,13 +37,14 @@
         </h1>
         {{ entry.content | markdown }}
         <p>created by: {{ entry.author.name }}</p>
+        {% if current_user.is_authenticated %}
         <a href="/entry/{{entry.id -1}}/edit">edit entry</a>
         |
         <a href="/entry/{{entry.id - 1}}/delete">delete entry</a>
+        {% endif %}
     </div>
 </div>
 {% endmacro %}
 
-{% macro placeholder() %}
-
+{% macro placeholder ()%}
 {% endmacro %}

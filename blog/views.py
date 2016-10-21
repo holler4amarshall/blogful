@@ -2,7 +2,7 @@ from flask import render_template
 from . import app
 from .database import session, Entry, User
 from flask import request, redirect, url_for, flash
-from flask.ext.login import login_user, login_required, current_user
+from flask.ext.login import login_user, login_required, current_user, logout_user
 from werkzeug.security import check_password_hash
 
 
@@ -122,4 +122,8 @@ def login_post():
     login_user(user)
     return redirect(request.args.get('next') or url_for("entries"))
     
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("entries"))
     
