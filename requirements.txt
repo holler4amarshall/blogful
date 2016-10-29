@@ -6,3 +6,5 @@ flask-migrate
 mistune
 psycopg2
 nose
+Werkzeug
+splinter
