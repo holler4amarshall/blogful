@@ -48,6 +48,7 @@ class DB(object):
     def __init__(self, metadata):
         self.metadata = metadata
 
+#adduser()
 migrate = Migrate(app, DB(Base.metadata))
 manager.add_command('db', MigrateCommand)
     

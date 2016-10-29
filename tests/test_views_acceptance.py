@@ -2,8 +2,6 @@ import os
 import unittest
 import multiprocessing
 import time
-import urllib
-import parser
 import urlparse
 import werkzeug
 from werkzeug.security import generate_password_hash
@@ -41,6 +39,8 @@ class TestViews(unittest.TestCase):
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
+        self.browser.is_text_present('Logout', wait_time=2)
+        self.browser.is_text_not_present('Login')
 
     def test_login_incorrect(self):
         self.browser.visit("http://127.0.0.1:8080/login")
@@ -49,6 +49,23 @@ class TestViews(unittest.TestCase):
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/login")
+        self.browser.is_text_present('Login')
+        self.browser.is_text_not_present('Logout')
+        
+    def test_logout(self):
+        self.test_login_correct()
+        print('Logged in')
+        logout_link = self.browser.find_link_by_text('Logout')
+        self.browser.is_text_present('Logout')
+        print('Logout link found')
+        logout_link.click()
+        print('Logout link clicked')
+        self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
+        self.browser.is_text_present('Login')
+        self.browser.is_text_not_present('Logout')
+        print('Login link displayed, Logout link not displayed')
+        
+        
 
 
     def tearDown(self):
