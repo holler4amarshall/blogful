@@ -2,7 +2,7 @@ import os
 import unittest
 import multiprocessing
 import time
-import urlparse
+from urllib.parse import urlparse
 import werkzeug
 from werkzeug.security import generate_password_hash
 from splinter import Browser
@@ -39,9 +39,10 @@ class TestViews(unittest.TestCase):
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
-        self.browser.is_text_present('Logout', wait_time=2)
-        self.browser.is_text_not_present('Login')
-
+        #self.browser.is_text_present('Logout', wait_time=2)
+        #self.browser.is_text_not_present('Login')
+        self.browser.click_link_by_text('Logout')
+        
     def test_login_incorrect(self):
         self.browser.visit("http://127.0.0.1:8080/login")
         self.browser.fill("email", "bob@example.com")
@@ -58,14 +59,12 @@ class TestViews(unittest.TestCase):
         logout_link = self.browser.find_link_by_text('Logout')
         self.browser.is_text_present('Logout')
         print('Logout link found')
-        logout_link.click()
+        self.browser.click_link_by_text('Logout')
         print('Logout link clicked')
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
         self.browser.is_text_present('Login')
         self.browser.is_text_not_present('Logout')
         print('Login link displayed, Logout link not displayed')
-        
-        
 
 
     def tearDown(self):
