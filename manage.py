@@ -1,5 +1,4 @@
 import os
-
 from flask.ext.script import Manager
 from blog import app
 from blog.database import session, Entry, User, Base

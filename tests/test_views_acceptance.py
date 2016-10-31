@@ -2,6 +2,7 @@ import os
 import unittest
 import multiprocessing
 import time
+import urllib
 from urllib.parse import urlparse
 import werkzeug
 from werkzeug.security import generate_password_hash
@@ -33,15 +34,16 @@ class TestViews(unittest.TestCase):
         time.sleep(1)
         
     def test_login_correct(self):
+        #self.browser.visit("http://127.0.0.1:8080/login")
         self.browser.visit("http://127.0.0.1:8080/login")
         self.browser.fill("email", "alice@example.com")
         self.browser.fill("password", "test")
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
-        #self.browser.is_text_present('Logout', wait_time=2)
-        #self.browser.is_text_not_present('Login')
-        self.browser.click_link_by_text('Logout')
+        print(self.browser.is_text_present('Login'))
+        print(self.browser.is_text_present('Logout', wait_time=2))
+        print(self.browser.is_text_not_present('Logout'))
         
     def test_login_incorrect(self):
         self.browser.visit("http://127.0.0.1:8080/login")
@@ -57,9 +59,9 @@ class TestViews(unittest.TestCase):
         self.test_login_correct()
         print('Logged in')
         logout_link = self.browser.find_link_by_text('Logout')
-        self.browser.is_text_present('Logout')
+        print(self.browser.is_text_present('Logout'))
         print('Logout link found')
-        self.browser.click_link_by_text('Logout')
+        logout_link.click()
         print('Logout link clicked')
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
         self.browser.is_text_present('Login')
