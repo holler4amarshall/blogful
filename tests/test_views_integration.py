@@ -2,8 +2,8 @@ import flask_login
 import os
 import unittest
 import urllib
+from urllib.parse import urlparse
 import parse
-import urlparse
 
 from werkzeug.security import generate_password_hash
 
@@ -45,7 +45,6 @@ class TestViews(unittest.TestCase):
             "title": "Test Entry",
             "content": "Test content"
         })
-
         self.assertEqual(response.status_code, 302)
         self.assertEqual(urlparse(response.location).path, "/")
         entries = session.query(Entry).all()
@@ -56,5 +55,35 @@ class TestViews(unittest.TestCase):
         self.assertEqual(entry.content, "Test content")
         self.assertEqual(entry.author, self.user)
 
+    def test_delete_entry(self): 
+        self.simulate_login()
+        self.test_add_entry()
+        entries = session.query(Entry).all()
+        entry = entries[0].id
+        response = self.client.post("/entry/{0}/delete".format(entry))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, "/")
+        entries = session.query(Entry).all()
+        self.assertEqual(len(entries), 0)
+        
+    def test_edit_entry(self):
+        self.simulate_login()
+        self.test_add_entry()
+        entries = session.query(Entry).all()
+        entry = entries[0].id
+        response = self.client.post("/entry/{0}/edit".format(entry), data={
+            "title": "Edited Entry",
+            "content": "Edited Content"
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, "/")
+        entries = session.query(Entry).all()
+        entry = entries[0]
+        print(entry.title, entry.content, entry.author)
+        self.assertEqual(entry.title, "Edited Entry")
+        self.assertEqual(entry.content, "Edited Content")
+        self.assertEqual(entry.author, self.user)
+        
+        
 if __name__ == "__main__":
     unittest.main()
