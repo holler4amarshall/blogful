@@ -34,7 +34,7 @@
                 <div class="collapse navbar-collapse">
                     <div class="panel-title pull-left">
              </div>
-        <div class="panel-title pull-right">
+        <div class="panel-title pull-left">
             {% if not current_user.is_authenticated %}
             <a class="navbar-brand" href="{{ url_for('login_get') }}">Login</a>
               {% else %}

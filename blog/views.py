@@ -64,8 +64,8 @@ def add_entry_post():
  
 @app.route("/entry/<int:id>")
 def view_entry(id):
-    entry = session.query(Entry)
-    entry = entry.filter(Entry.id == id + 1).first()
+    entry = session.query(Entry) #session.query(Entry).get(id)
+    entry = entry.filter(Entry.id == id).first() #session.query(Entry).get(id)
     return render_template("entry.html",
         entry=entry)
     ### need to bullet proof this. if i enter /entry/1000000 then i dont get a nice error.
@@ -74,30 +74,26 @@ def view_entry(id):
 @app.route("/entry/<int:id>/edit", methods=["GET"])
 def edit_entry_get(id):
     entry = session.query(Entry)
-    entry = entry.filter(Entry.id == id + 1).first()
+    entry = entry.filter(Entry.id == id).first()
     return render_template("edit_entry.html", entry=entry)
     
 @app.route("/entry/<int:id>/edit", methods=["POST"])
 def edit_entry_post(id):
-    id = id + 1
     entry = session.query(Entry)
     entry = entry.filter(Entry.id == id).first()
-    entry = Entry(
-        title=request.form["title"],
-        content=request.form["content"],
-    )
+    entry.title = request.form["title"] 
+    entry.content=request.form["content"]
     session.commit()
     return redirect(url_for("entries"))
     
 @app.route("/entry/<int:id>/delete", methods=["GET"])
 def delete_entry_get(id):
     entry = session.query(Entry)
-    entry = entry.filter(Entry.id == id + 1).first()
+    entry = entry.filter(Entry.id == id).first()
     return render_template("delete_entry.html", entry=entry)
 
 @app.route("/entry/<int:id>/delete", methods=["POST"])
 def delete_entry(id):
-    id = id + 1
     entry = session.query(Entry)
     entry = entry.filter(Entry.id == id).first()
     session.delete(entry)
