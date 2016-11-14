@@ -34,9 +34,13 @@ class TestViews(unittest.TestCase):
         time.sleep(1)
         
     def verify_element_exists(self, xpath):
-        self.assertTrue(self.browser.is_element_present_by_xpath(xpath), "path {} should exist".format(xpath))
+        self.assertTrue(self.browser.is_element_present_by_xpath(xpath, wait_time=2), "path {} should exist".format(xpath))
+        
+    def verify_element_does_not_exist(self, xpath): 
+        self.assertTrue(self.browser.is_element_not_present_by_xpath(xpath, wait_time=2), "path {} should not exist".format(xpath))
     
     def test_login_correct(self):
+        print("executing test: test_login_correct")
         #self.browser.visit("http://127.0.0.1:8080/login")
         self.browser.visit("http://127.0.0.1:8080/login")
         self.browser.fill("email", "alice@example.com")
@@ -44,20 +48,27 @@ class TestViews(unittest.TestCase):
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
+        self.verify_element_exists("//a[@href='/logout']")
+        self.verify_element_does_not_exist("//a[@href='/login']")
         
     def test_login_incorrect(self):
+        print("executing test: test_login_incorrect")
         self.browser.visit("http://127.0.0.1:8080/login")
         self.browser.fill("email", "bob@example.com")
         self.browser.fill("password", "test")
         button = self.browser.find_by_css("button[type=submit]")
         button.click()
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/login")
+        self.verify_element_exists("//a[@href='/login']")
+        self.verify_element_does_not_exist("//a[@href='/logout']")
         
     def test_add_entry(self): 
+        print("executing test: add_entry")
         title = "a super cool test title 123"
         content = "even cooler content !!!"
         self.test_login_correct()
         self.browser.visit("http://127.0.0.1:8080/entry/add")
+        self.verify_element_exists("//h1[contains(text(),'Add Entry')]")
         self.browser.is_element_present_by_xpath('//h1[contains(text(),"Add Entry")]')
         self.browser.is_element_present_by_xpath('//label[text()="Title"]')
         self.browser.is_element_present_by_xpath('//label[text()="Content"]')
@@ -73,8 +84,11 @@ class TestViews(unittest.TestCase):
         
         
     def test_logout(self):
+        print("executing test: test_logout")
         self.test_login_correct()
         print('Logged in')
+        self.verify_element_exists("//a[@href='/logout']")
+        #time.sleep(2)
         self.browser.click_link_by_partial_text('Logout')
         print('Logout link clicked')
         self.assertEqual(self.browser.url, "http://127.0.0.1:8080/")
